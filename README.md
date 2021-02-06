@@ -4,4 +4,4 @@ This is an ongoing project. The project will scrape data from the internet for p
 
 ### Learning Outcome
 
-Dashboard, django, pandas
+Dashboard, Beautiful Soup, Selenium and pandas
