@@ -3,7 +3,7 @@ import plotly as py        #(version 4.5.4) #pip install plotly==4.5.4
 import plotly.express as px
 import plotly.io as pio
 import numpy as np
-
+import math
 
 df = pd.read_excel('data.xls')
 
@@ -11,19 +11,41 @@ df = pd.read_excel('data.xls')
 #filter out error fields
 bools =[]
 for column in df.columns:
-    if column != 'Unnamed: 0':    
+    if column != 'Unnamed: 0': 
+        #Clean rows with errors 
         s=df[column]
         filter = s.str.find('Error:').astype(bool).tolist()
         bools.append(filter)
-    
+        #clean data
+        df[column] =df[column].str.replace(',','')
+        df[column] =df[column].str.replace('$','')  
+    if column == 'Cost Of Living and Rent':
+        df[column] =df[column].str.replace('(','')  
+        df[column] =df[column].str.split('+')  
+
+
+
+
 bools=np.array(bools)
 combined_filter=np.matrix([fil.all() for fil in np.matrix([*bools]).T]).A1
 df= df[pd.Series(combined_filter)]
+df['Cost Of Living and Rent'] =[float(cost[0])+float(cost[1]) for cost in df['Cost Of Living and Rent']] 
 
-for col in df.columns:
-    col = int(col)
-
-barchart = px.scatter(df,x='Salary',y='Rent', hover_data=[df.columns[0]])
-df=df.sort_values([df.columns[1]])
 print(df)
-#pio.show(barchart)
+
+barchart = px.scatter(df,x='Salary',y='Cost Of Living and Rent', hover_data=[df.columns[0]])
+axes=[]
+#construct axes
+for column in df.columns:
+    if column != 'Unnamed: 0':
+        max_val = math.ceil(pd.to_numeric(df[column]).max()/1000)*1000
+        min_val=math.floor(pd.to_numeric(df[column]).min()/1000)*1000
+        axes.append([min_val,max_val])
+        print(axes)
+barchart.update_xaxes(range=axes[1],type='linear',fixedrange=True)
+barchart.update_yaxes(range=axes[0],type='linear',fixedrange=True)
+
+        
+
+
+barchart.show()

@@ -15,20 +15,23 @@ def GetCityRent(RentAndSalary):
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument("--log-level=3");
+    chrome_options.add_argument('--ignore-certificate-errors')
+    chrome_options.add_argument('--ignore-ssl-errors')
     driver = webdriver.Chrome(options = chrome_options)
 
     driver.get('https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States')
     for key,value in RentAndSalary.items():
         try:
             Select(driver.find_element_by_xpath('/html/body/div[2]/nav[2]/form/select')).select_by_value(key)
-            WebDriverWait(driver,5).until(EC.visibility_of_element_located((By.XPATH,'/html/body/div[2]/div[2]/ul/li[2]')))
-            rent =driver.find_element_by_xpath('/html/body/div[2]/div[2]/ul/li[2]').text
-            print(rent)
-            rent = extractRent(rent)
-            value.append(rent)
+            WebDriverWait(driver,10).until(EC.visibility_of_element_located((By.XPATH,'/html/body/div[2]/div[2]/ul/li[2]')))
+            costOfLiving =driver.find_element_by_xpath('/html/body/div[2]/div[2]/ul/li[2]').text
+            costOfLiving = extractcostOfLiving(costOfLiving)
+            rent = driver.find_element_by_xpath('/html/body/div[2]/table/tbody/tr[56]/td[2]/span').text
+            value.append(costOfLiving +'+'+ rent)
             driver.back()
         except Exception as e:
-            value.append('Error: Could not find rent'+ str(e))
+            value.append('Error: Could not find rent '+ str(e))
+            #print(e)
             driver.get('https://www.numbeo.com/cost-of-living/country_result.jsp?country=United+States')
     driver.quit()
 
@@ -38,6 +41,8 @@ def GetJobSalary(RentAndSalary):
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument("--log-level=3");
+    chrome_options.add_argument('--ignore-certificate-errors')
+    chrome_options.add_argument('--ignore-ssl-errors')
     driver = webdriver.Chrome(options = chrome_options)
 
     for key,value in RentAndSalary.items():
@@ -46,15 +51,16 @@ def GetJobSalary(RentAndSalary):
             WebDriverWait(driver,5).until(EC.url_changes)
             driver.get('https://www.indeed.com/career/data-scientist/salaries/'+cityState[0]+'--'+cityState[1])
             salary =driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div/div[1]/div/div[1]/div[2]/div/div/div[1]/div[3]/div[1]').text
-            value.append(salary)
+            value.append(salary[1::])
         except Exception as e:
+            #print(e)
             value.append("Error: Can't find salary on indeed "+str(e))
     driver.quit()
 
 
-def extractRent(message):
-    no=regex.search(r'\b.*\p{Sc}',message)
-    return no.group()
+def extractcostOfLiving(message):
+    no=regex.search(r'\(.*\p{Sc}',message)
+    return no.group(0)
 
 
 
@@ -66,14 +72,13 @@ RentAndSalary={i : [] for i in listOfCities}
 
 GetCityRent(RentAndSalary)
 GetJobSalary(RentAndSalary)
-df = pandas.DataFrame.from_dict(RentAndSalary, orient='index',columns = ['Rent','Salary'])
+df = pandas.DataFrame.from_dict(RentAndSalary, orient='index',columns = ['Cost Of Living and Rent','Salary'])
 try:
     with ExcelWriter('data.xls') as writer:
         df.to_excel(writer)
 except PermissionError as e:
     print(e)
     pass
-#df.to_csv('filename.csv',index =False)
 
 
 
