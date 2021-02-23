@@ -17,16 +17,30 @@
 
 #plot{
     background-color: #1E2130;
-    
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
     float:right;
-    
+}
+.Banner{
+    background-color:#181A26;
+    margin:0;
+}
+.Banner-content{
+    padding:40px;
+    max-width:500px;
+    margin: 0 auto;
+}
+.Banner-text{
+    color:#E0E1DD;
+    text-align: center;
+    font-size: 40px;
+    font-family:'Times New Roman', Times, serif;
 }
 
 body { 
     background-color:#1e2130;
+    margin:0;
  }
 

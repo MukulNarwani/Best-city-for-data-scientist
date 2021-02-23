@@ -15,7 +15,14 @@ from dash.dependencies import Input,Output
 app = dash.Dash(__name__)
 app.layout = html.Div(
     children=[
-        html.H1('Dashboard',id='title'),
+        html.Div(className='Banner',children=[
+            html.Div(className='Banner-content',children=[
+                html.Div(className='Banner-text',children=[
+                    html.Strong('Dashboard')
+                ])
+            ])
+        ]),
+        #html.H1('Dashboard',id='title'),
         html.Div(html.Button('Refresh',id='button')),
         html.Div(dcc.Graph(id='scatter-plot'),id='plot')
             
