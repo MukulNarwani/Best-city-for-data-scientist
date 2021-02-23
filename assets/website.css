@@ -1,0 +1,32 @@
+
+
+#title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: #E0E1DD;
+    
+}
+
+/* .button{
+    float:left;
+    background-color:'#E0E1DD';
+    overflow:hidden
+} */
+
+#plot{
+    background-color: #1E2130;
+    
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    float:right;
+    
+}
+
+body { 
+    background-color:#1e2130;
+ }
+

@@ -15,13 +15,10 @@ from dash.dependencies import Input,Output
 app = dash.Dash(__name__)
 app.layout = html.Div(
     children=[
-        html.body(html),
-        html.Div(html.Button('Refresh',id='button'),style={
-                                                     "background-color": 'red'
-                                                     }),
-        html.Div(dcc.Graph(id='scatter-plot'),style={
-                                                     "background-color": 'red'
-                                                     }),
+        html.H1('Dashboard',id='title'),
+        html.Div(html.Button('Refresh',id='button')),
+        html.Div(dcc.Graph(id='scatter-plot'),id='plot')
+            
     ]
 )
 @app.callback(
@@ -43,6 +40,13 @@ def makeBarChart(n_clicks):
             axes.append([min_val,max_val])
     barchart.update_xaxes(range=axes[1],type='linear',fixedrange=True)
     barchart.update_yaxes(range=axes[0],type='linear',fixedrange=True)
+    barchart.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_color="#E0E1DD"
+
+        
+        )
     return barchart
 
 def cleanData(df):
