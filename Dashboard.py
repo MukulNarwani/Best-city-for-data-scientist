@@ -13,18 +13,41 @@ from dash.dependencies import Input,Output
 
 
 app = dash.Dash(__name__)
-app.layout = html.Div(
+'''app.layout = html.Div(
     children=[
         html.Div(className='Banner',children=[
             html.Div(className='Banner-content',children=[
                 html.Div(className='Banner-text',children=[
-                    html.Strong('Dashboard')
+                    html.P('Dashboard')
                 ])
             ])
         ]),
-        #html.H1('Dashboard',id='title'),
-        html.Div(html.Button('Refresh',id='button')),
-        html.Div(dcc.Graph(id='scatter-plot'),id='plot')
+        html.Div(className='pageContent',children=[
+            html.Div(className='tools',children=[
+                html.Div(className='toolsContent',children=[
+                    html.Button('Refresh',id='button')
+                    ])
+                ]),
+            html.Div(className='plot',children=[
+                dcc.Graph(id='scatter-plot')
+                ])
+        ])
+            
+    ]
+)'''
+app.layout = html.Div(
+    children=[        
+        html.Div(className='mainContainer',children=[
+            html.Div(className='header',children=[
+                html.Div('Best city for a Data Scientist',className='title')
+                ]),
+            html.Div(className='sidebar',children=[
+                html.Button('Refresh',id='button')
+                ]),
+            html.Div(className='plot',children=[
+                dcc.Graph(id='scatter-plot')
+                ])
+        ])
             
     ]
 )

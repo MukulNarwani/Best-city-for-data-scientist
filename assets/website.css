@@ -1,42 +1,62 @@
-
-
-#title{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+.title{
+    font-size:35px;
     color: #E0E1DD;
     
 }
-
-/* .button{
-    float:left;
-    background-color:'#E0E1DD';
-    overflow:hidden
-} */
-
-#plot{
-    background-color: #1E2130;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    float:right;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
-.Banner{
+   
+.header{
     background-color:#181A26;
-    margin:0;
+    /* border-bottom: 2px solid #E0E1DD; */
+    /* padding:20px; */
+    width:100%;
+    height:70px;
+    position: fixed;
+    margin-top:0;
+    top:0;
+    background:solid;
+
 }
-.Banner-content{
-    padding:40px;
-    max-width:500px;
-    margin: 0 auto;
+ .mainContainer{
+    margin-top: 70px;
+    /* display:inline-block; */
+    width:fit-content;
+    height:fit-content;
+} 
+.plot{
+    background-color: #25283ace;
+    /* width:900px; */
+    width:100%;
+    right:0;
+    padding-left: 250px;
+    /* margin-left: 260px; */
+    /* float:right; */
+    /* margin-top:10px; */
+    /* align-self: center; */
+    position: fixed;
+    display: inline-block;
+
+    /* top:20%;
+    left: 25% */
 }
-.Banner-text{
-    color:#E0E1DD;
-    text-align: center;
-    font-size: 40px;
-    font-family:'Times New Roman', Times, serif;
+.sidebar{
+    background: rgba(255, 255, 255, 0.1);
+    padding-top:30px;
+    position: fixed;
+    left: 0;
+    width:250px;
+    height:100%;
+    display: inline-block;
+
+    /* max-width:px; */
+}
+.tools{
+    display: flex;
 }
 
 body { 
